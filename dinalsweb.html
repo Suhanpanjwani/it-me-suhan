@@ -301,8 +301,18 @@
             <h1>I'm Sorry</h1>
             <p>I know I made you angry recently.</p>
             <p>I'm not proud of that.</p>
-            <p>I am not blaming myself, that would be unfair to you. I think circumstances weren't right and i want to show accountability</p>
             <p>This isn't meant to be dramatic or to erase anything. It's just my way of saying that I truly am sorry, and that I care enough to acknowledge it fully.</p>
+
+            <!-- Audio narration button -->
+            <div style="margin-top: 30px;">
+                <button class="submit-btn" id="playAudioBtn" style="background: #D8A7B1;">
+                    🔊 Hear My Voice
+                </button>
+                <audio id="apologyAudio" style="display:none;">
+                    <source src="apology.mp3" type="audio/mpeg">
+                    <source src="apology.m4a" type="audio/mp4">
+                </audio>
+            </div>
         </div>
     </div>
 
@@ -313,12 +323,9 @@
             <p>Not trying to impress you. Not trying to convince you.</p>
             <p>Just wanting you to see the person behind all the words.</p>
             <div class="video-container">
-                <!-- VIDEO 1: Replace with your YouTube embed -->
-                <!-- <iframe src="https://www.youtube.com/embed/YOUR_VIDEO_ID" allowfullscreen></iframe> -->
-                <div class="video-placeholder">
-                    <p>📹 Video about you</p>
-                    <p class="label">Replace with YouTube embed</p>
-                </div>
+                <video controls playsinline style="width:100%; border-radius:12px;">
+                    <source src="video1.mp4" type="video/mp4">
+                </video>
             </div>
         </div>
     </div>
@@ -407,6 +414,13 @@
             </div>
 
             <p style="margin-top: 30px; font-style: italic;">I will call you directly after my dance on the stage is finished.</p>
+
+            <!-- Message box for Page 8 -->
+            <div class="text-field-container" style="margin-top: 40px;">
+                <textarea id="yesResponseText" placeholder="Write anything you want to say..."></textarea>
+                <button class="submit-btn" id="yesSubmitBtn">Send to Me</button>
+                <p class="thank-you-message" id="yesThankYouMsg">Thank you for sharing. I've received your message.</p>
+            </div>
         </div>
     </div>
 
@@ -498,14 +512,29 @@
             const start = new Date('2022-12-25T00:00:00');
             const now = new Date();
 
-            let years = now.getFullYear() - start.getFullYear();
-            let months = now.getMonth() - start.getMonth();
-            if (months < 0) { years--; months += 12; }
-
-            const temp = new Date(start);
-            temp.setFullYear(start.getFullYear() + years);
-            temp.setMonth(start.getMonth() + months);
-            const days = Math.floor((now - temp) / (1000 * 60 * 60 * 24));
+            // Calculate total milliseconds difference
+            const diff = now - start;
+            
+            // Calculate years
+            let tempDate = new Date(start);
+            let years = 0;
+            while (tempDate.setFullYear(tempDate.getFullYear() + 1) <= now) {
+                years++;
+            }
+            tempDate = new Date(start);
+            tempDate.setFullYear(start.getFullYear() + years);
+            
+            // Calculate months
+            let months = 0;
+            while (tempDate.setMonth(tempDate.getMonth() + 1) <= now) {
+                months++;
+            }
+            tempDate.setMonth(tempDate.getMonth() - 1); // Go back one month
+            
+            // Calculate days
+            const days = Math.floor((now - tempDate) / (1000 * 60 * 60 * 24));
+            
+            // Calculate hours
             const hours = now.getHours();
 
             document.getElementById('years').textContent = years;
@@ -624,11 +653,53 @@
                 alert('Something went wrong. Please try again.');
             }
         });
+        // ============================================
+        // PAGE 8 MESSAGE BOX
+        // ============================================
+        const yesSubmitBtn = document.getElementById('yesSubmitBtn');
+        const yesResponseText = document.getElementById('yesResponseText');
+        const yesThankYouMsg = document.getElementById('yesThankYouMsg');
+
+        yesSubmitBtn.addEventListener('click', async () => {
+            const msg = yesResponseText.value.trim();
+
+            try {
+                await emailjs.send('service_dapiima', 'template_qd0g5v8', {
+                    type: 'YES - Her message',
+                    message: msg || '(She did not write anything)'
+                }, 'hS7V4MXAm9T8CT-xQ');
+
+                yesResponseText.style.display = 'none';
+                yesSubmitBtn.style.display = 'none';
+                yesThankYouMsg.style.display = 'block';
+            } catch (err) {
+                console.error('Email error:', err);
+                alert('Something went wrong. Please try again.');
+            }
+        });
+
+        // ============================================
+        // AUDIO PLAYBACK (Page 2)
+        // ============================================
+        const playAudioBtn = document.getElementById('playAudioBtn');
+        const apologyAudio = document.getElementById('apologyAudio');
+
+        playAudioBtn.addEventListener('click', () => {
+            if (apologyAudio.paused) {
+                apologyAudio.play();
+                playAudioBtn.textContent = '⏸️ Pause';
+            } else {
+                apologyAudio.pause();
+                playAudioBtn.textContent = '🔊 Hear My Voice';
+            }
+        });
+
+        apologyAudio.addEventListener('ended', () => {
+            playAudioBtn.textContent = '🔊 Hear My Voice';
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 </body>
 </html>
-
-
