@@ -371,6 +371,17 @@
             <h1>So I want to ask you something — honestly and without expectations.</h1>
             <p style="font-size: 1.8em; margin: 30px 0;">Will you be my Valentine?</p>
 
+            <!-- Audio confession button -->
+            <div style="margin: 20px 0;">
+                <button class="submit-btn" id="playConfessionBtn" style="background: #E8AEB7; color: #3F3A3A;">
+                    💝 Listen to My Confession
+                </button>
+                <audio id="confessionAudio" style="display:none;">
+                    <source src="confession.mp3" type="audio/mpeg">
+                    <source src="confession.m4a" type="audio/mp4">
+                </audio>
+            </div>
+
             <!-- VIDEO 2: Friends convincing her -->
             <div class="video-container">
                 <video controls playsinline style="width:100%; border-radius:12px;">
@@ -447,7 +458,7 @@
             </div>
 
             <!-- Changed mind button -->
-            <button class="changed-mind-btn" id="changedMindBtn">Actually... Yes</button>
+            <button class="changed-mind-btn" id="changedMindBtn">look at what yes said</button>
         </div>
     </div>
 
@@ -646,9 +657,17 @@
                     message: msg || '(She did not write anything)'
                 }, 'hS7V4MXAm9T8CT-xQ');
 
-                responseText.style.display = 'none';
-                submitBtn.style.display = 'none';
+                // Show thank you message temporarily
                 thankYouMsg.style.display = 'block';
+                
+                // Clear the text box
+                responseText.value = '';
+                
+                // Hide thank you message after 3 seconds
+                setTimeout(() => {
+                    thankYouMsg.style.display = 'none';
+                }, 3000);
+
             } catch (err) {
                 console.error('Email error:', err);
                 alert('Something went wrong. Please try again.');
@@ -670,9 +689,17 @@
                     message: msg || '(She did not write anything)'
                 }, 'hS7V4MXAm9T8CT-xQ');
 
-                yesResponseText.style.display = 'none';
-                yesSubmitBtn.style.display = 'none';
+                // Show thank you message temporarily
                 yesThankYouMsg.style.display = 'block';
+                
+                // Clear the text box
+                yesResponseText.value = '';
+                
+                // Hide thank you message after 3 seconds
+                setTimeout(() => {
+                    yesThankYouMsg.style.display = 'none';
+                }, 3000);
+
             } catch (err) {
                 console.error('Email error:', err);
                 alert('Something went wrong. Please try again.');
@@ -698,10 +725,29 @@
         apologyAudio.addEventListener('ended', () => {
             playAudioBtn.textContent = '🔊 Hear My Voice';
         });
+
+        // ============================================
+        // CONFESSION AUDIO (Page 6)
+        // ============================================
+        const playConfessionBtn = document.getElementById('playConfessionBtn');
+        const confessionAudio = document.getElementById('confessionAudio');
+
+        playConfessionBtn.addEventListener('click', () => {
+            if (confessionAudio.paused) {
+                confessionAudio.play();
+                playConfessionBtn.textContent = '⏸️ Pause';
+            } else {
+                confessionAudio.pause();
+                playConfessionBtn.textContent = '💝 Listen to My Confession';
+            }
+        });
+
+        confessionAudio.addEventListener('ended', () => {
+            playConfessionBtn.textContent = '💝 Listen to My Confession';
+        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 </body>
 </html>
-
