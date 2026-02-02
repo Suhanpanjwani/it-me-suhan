@@ -375,7 +375,7 @@
             <!-- Audio confession button -->
             <div style="margin: 20px 0;">
                 <button class="submit-btn" id="playConfessionBtn" style="background: #E8AEB7; color: #3F3A3A;">
-                    💝 Listen to My Confession here
+                    🔊 Listen to My Confession💝
                 </button>
                 <audio id="confessionAudio" style="display:none;">
                     <source src="confession.mp3" type="audio/mpeg">
@@ -410,7 +410,7 @@
                 </video>
             </div>
 
-            <p>I'm really looking forward to our talk.</p>
+            <p>I'm really looking forward to what we can share.</p>
         </div>
     </div>
 
@@ -420,13 +420,13 @@
             <h1>One more thing...</h1>
 
             <div class="youtube-link-container">
-                <!-- REPLACE THIS href with your school function YouTube link -->
+                <!-- REPLACE THIS with YouTube link -->
                 <a href="https://www.youtube.com/watch?v=YOUR_VIDEO_ID" target="_blank" class="youtube-link">
                     🎬 Watch My School Function
                 </a>
             </div>
 
-            <p style="margin-top: 30px; font-style: italic;"> The school function is on 5th so I will call you directly after my dance on the stage is finished.</p>
+            <p style="margin-top: 30px; font-style: italic;">I will call you directly after my dance on the stage is finished.</p>
 
             <!-- Message box for Page 8 -->
             <div class="text-field-container" style="margin-top: 40px;">
@@ -459,7 +459,7 @@
             </div>
 
             <!-- Changed mind button -->
-            <button class="changed-mind-btn" id="changedMindBtn">look at what yes said</button>
+            <button class="changed-mind-btn" id="changedMindBtn">Actually... Yes</button>
         </div>
     </div>
 
@@ -475,9 +475,7 @@
     </div>
 
     <script>
-        // ============================================
         // PAGE NAVIGATION
-        // ============================================
         let currentPage = 1;
         const totalPages = 6; // Pages 1-6 are navigable, 7 and 8 are reached via buttons
         let yesClickCount = 0;
@@ -517,10 +515,8 @@
         });
 
         goToPage(1); // Start on page 1
-
-        // ============================================
+        
         // TIMER (Page 4)
-        // ============================================
         function updateTimer() {
             const start = new Date('2022-12-25T00:00:00');
             const now = new Date();
@@ -559,9 +555,7 @@
         updateTimer();
         setInterval(updateTimer, 3600000);
 
-        // ============================================
         // YES / NO LOGIC (Page 6)
-        // ============================================
         const yesBtn = document.getElementById('yesBtn');
         const noBtn = document.getElementById('noBtn');
         const yesCounter = document.getElementById('yesCounter');
@@ -600,18 +594,15 @@
             navBar.style.display = 'none';
         });
 
-        // ============================================
+
         // "Actually Yes" BUTTON (Page 7 No)
-        // ============================================
         document.getElementById('changedMindBtn').addEventListener('click', () => {
             finalAnswer = 'yes';
             sendNotification('YES (changed mind)', 'She changed her mind and said YES!');
             showPage('page7yes');
         });
 
-        // ============================================
         // PAGE 7 YES → PAGE 8 (Next button)
-        // ============================================
         // After yes page loads, show a next button to go to page 8
         const observer = new MutationObserver(() => {
             const yesPage = document.getElementById('page7yes');
@@ -641,10 +632,8 @@
         });
 
         observer.observe(document.getElementById('page7yes'), { attributes: true, attributeFilter: ['class'] });
-
-        // ============================================
         // TEXT SUBMISSION (Page 7 No)
-        // ============================================
+        
         const submitBtn = document.getElementById('submitBtn');
         const responseText = document.getElementById('responseText');
         const thankYouMsg = document.getElementById('thankYouMsg');
@@ -658,13 +647,13 @@
                     message: msg || '(She did not write anything)'
                 }, 'hS7V4MXAm9T8CT-xQ');
 
-                // Show thank you message temporarily
+                // Show thank you message 
                 thankYouMsg.style.display = 'block';
                 
                 // Clear the text box
                 responseText.value = '';
                 
-                // Hide thank you message after 3 seconds
+                // Hide thank you message 
                 setTimeout(() => {
                     thankYouMsg.style.display = 'none';
                 }, 3000);
@@ -674,9 +663,8 @@
                 alert('Something went wrong. Please try again.');
             }
         });
-        // ============================================
         // PAGE 8 MESSAGE BOX
-        // ============================================
+        
         const yesSubmitBtn = document.getElementById('yesSubmitBtn');
         const yesResponseText = document.getElementById('yesResponseText');
         const yesThankYouMsg = document.getElementById('yesThankYouMsg');
@@ -690,13 +678,13 @@
                     message: msg || '(She did not write anything)'
                 }, 'hS7V4MXAm9T8CT-xQ');
 
-                // Show thank you message temporarily
+                // Show thank you message
                 yesThankYouMsg.style.display = 'block';
                 
                 // Clear the text box
                 yesResponseText.value = '';
                 
-                // Hide thank you message after 3 seconds
+                // Hide thank you message
                 setTimeout(() => {
                     yesThankYouMsg.style.display = 'none';
                 }, 3000);
@@ -707,9 +695,7 @@
             }
         });
 
-        // ============================================
         // AUDIO PLAYBACK (Page 2)
-        // ============================================
         const playAudioBtn = document.getElementById('playAudioBtn');
         const apologyAudio = document.getElementById('apologyAudio');
 
@@ -726,10 +712,7 @@
         apologyAudio.addEventListener('ended', () => {
             playAudioBtn.textContent = '🔊 Hear My Voice';
         });
-
-        // ============================================
         // CONFESSION AUDIO (Page 6)
-        // ============================================
         const playConfessionBtn = document.getElementById('playConfessionBtn');
         const confessionAudio = document.getElementById('confessionAudio');
 
@@ -739,12 +722,12 @@
                 playConfessionBtn.textContent = '⏸️ Pause';
             } else {
                 confessionAudio.pause();
-                playConfessionBtn.textContent = '💝 Listen to My Confession';
+                playConfessionBtn.textContent = '🔊 Listen to My Confession💝';
             }
         });
 
         confessionAudio.addEventListener('ended', () => {
-            playConfessionBtn.textContent = '💝 Listen to My Confession';
+            playConfessionBtn.textContent = '🔊 Listen to My Confession💝';
         });
     </script>
 
@@ -752,5 +735,3 @@
 
 </body>
 </html>
-
-
